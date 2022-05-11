@@ -7,5 +7,5 @@ import retrofit2.http.Path
 
 interface GithubService {
     @GET("users/{username}")
-    suspend fun getFollowers(@Path("username") username: String): GithubUserDto
+    suspend fun getUser(@Path("username") username: String): GithubUserDto
 }
