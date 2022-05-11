@@ -7,5 +7,20 @@
     <fragment
         android:id="@+id/userSearchFragment"
         android:name="com.jmanueldev.ghfollowers.presentation.ui.user_search.UserSearchFragment"
-        android:label="UserSearchFragment" />
+        android:label="UserSearchFragment" >
+        <action
+            android:id="@+id/viewFollowers"
+            app:destination="@id/userFollowersFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/userFollowersFragment"
+        android:name="com.jmanueldev.ghfollowers.presentation.ui.user_followers.FollowersFragment"
+        android:label="UserFollowersFragment" >
+        <argument
+            android:name="username"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>

@@ -12,4 +12,8 @@ constructor(
     override suspend fun getUser(username: String): GithubUser {
         return dtoMapper.toDomainModel(githubService.getUser(username))
     }
+
+    override suspend fun getFollowers(username: String): List<GithubUser> {
+        return dtoMapper.toDomainModelList(githubService.getFollowers(username = username))
+    }
 }

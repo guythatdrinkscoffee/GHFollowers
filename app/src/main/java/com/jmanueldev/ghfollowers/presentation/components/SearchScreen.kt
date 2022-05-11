@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -19,7 +18,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jmanueldev.ghfollowers.R
 import com.jmanueldev.ghfollowers.presentation.ui.user_search.UserSearchViewModel
@@ -28,18 +26,11 @@ import com.jmanueldev.ghfollowers.presentation.ui.user_search.UserSearchViewMode
 @Composable
 fun SearchScreen(
     searchViewModel: UserSearchViewModel = viewModel(),
-    focusManager: FocusManager = LocalFocusManager.current
+    focusManager: FocusManager = LocalFocusManager.current,
 ) {
-    val alpha = if(searchViewModel.isSearching.value){
-        0.5F
-    } else {
-        1.0F
-    }
 
-    Box {
         Column(
             modifier = Modifier
-                .alpha(alpha)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -74,7 +65,7 @@ fun SearchScreen(
                 ),
                 keyboardActions = KeyboardActions(
                     onSearch = {
-                        //Have the viewmodel perform the search
+                        //Have the ViewModel perform the search
                         searchViewModel.getUser()
 
                         //Once the search button is pressed
@@ -98,15 +89,4 @@ fun SearchScreen(
             }
 
         }
-
-        LoadingIndicator(
-            isVisible = searchViewModel.isSearching.value
-        )
-    }
-}
-
-@Preview
-@Composable
-fun SearchViewPreview(){
-    SearchScreen()
 }
