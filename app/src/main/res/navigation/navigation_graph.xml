@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/userSearchFragment"
-        android:name="com.jmanueldev.ghfollowers.presentation.ui.user_search.UserSearchFragment"
+        android:name="com.jmanueldev.ghfollowers.presentation.ui.user_search_fragment.UserSearchFragment"
         android:label="UserSearchFragment" >
         <action
             android:id="@+id/viewFollowers"
@@ -16,11 +16,23 @@
 
     <fragment
         android:id="@+id/userFollowersFragment"
-        android:name="com.jmanueldev.ghfollowers.presentation.ui.user_followers.FollowersFragment"
+        android:name="com.jmanueldev.ghfollowers.presentation.ui.user_followers_fragment.FollowersFragment"
         android:label="UserFollowersFragment" >
         <argument
             android:name="username"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_userFollowersFragment_to_followerFragment"
+            app:destination="@id/followerFragment"
+            app:enterAnim="@anim/nav_default_enter_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/followerFragment"
+        android:name="com.jmanueldev.ghfollowers.presentation.ui.follower_fragment.FollowerFragment"
+        android:label="FollowerFragment" >
+        <argument
+            android:name="follower"
+            app:argType="string" />
     </fragment>
 </navigation>

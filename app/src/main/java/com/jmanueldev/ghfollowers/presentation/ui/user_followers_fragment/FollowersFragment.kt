@@ -1,21 +1,14 @@
-package com.jmanueldev.ghfollowers.presentation.ui.user_followers
+package com.jmanueldev.ghfollowers.presentation.ui.user_followers_fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.jmanueldev.ghfollowers.presentation.components.FollowerScreen
-import com.jmanueldev.ghfollowers.presentation.components.LoadingIndicator
-import com.jmanueldev.ghfollowers.presentation.components.VerticalGrid
 
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,10 +30,13 @@ class FollowersFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val navController = findNavController()
+
         return ComposeView(requireContext()).apply {
             setContent {
-                FollowerScreen()
+                FollowerScreen( navController = navController)
             }
         }
     }
+
 }

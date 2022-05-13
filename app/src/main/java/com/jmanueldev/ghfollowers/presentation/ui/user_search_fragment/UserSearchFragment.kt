@@ -1,4 +1,4 @@
-package com.jmanueldev.ghfollowers.presentation.ui.user_search
+package com.jmanueldev.ghfollowers.presentation.ui.user_search_fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class UserSearchFragment : Fragment() {
     //UserSearchViewModel
     val userSearchViewModel: UserSearchViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -24,23 +25,16 @@ class UserSearchFragment : Fragment() {
     ): View? {
         return ComposeView(requireContext()).apply {
             setContent {
-                SearchScreen()
+                SearchScreen(
+                    onSearch = {
+                        val bundle = Bundle()
+                        bundle.putString("username", userSearchViewModel.username.value)
+                        findNavController().navigate(R.id.viewFollowers, bundle)
+                        userSearchViewModel.clearSearch()
+                    }
+                )
             }
         }
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val navController = findNavController()
-
-        userSearchViewModel.user.observe(viewLifecycleOwner) { user ->
-            //if the user is not null then navigate to the followers screen. :D
-            user?.let { githubUser ->
-                val bundle = Bundle()
-                bundle.putString("username", githubUser.username)
-                navController.navigate(R.id.viewFollowers, bundle)
-            }
-        }
-    }
 }

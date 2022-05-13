@@ -1,4 +1,4 @@
-package com.jmanueldev.ghfollowers.presentation.ui.user_followers
+package com.jmanueldev.ghfollowers.presentation.ui.user_followers_fragment
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf

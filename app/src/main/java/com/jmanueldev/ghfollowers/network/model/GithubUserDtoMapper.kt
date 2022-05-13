@@ -7,7 +7,15 @@ class GithubUserDtoMapper: DomainMapper<GithubUserDto, GithubUser>{
     override fun toDomainModel(model: GithubUserDto): GithubUser {
         return GithubUser(
             username = model.login,
-            avatarUrl = model.avatarUrl
+            avatarUrl = model.avatarUrl,
+            bio = model.bio,
+            name = model.name,
+            location = model.location,
+            repos = model.repos,
+            gists = model.gists,
+            createdAt = model.createdAt,
+            followers = model.followers,
+            following = model.following
         )
     }
 

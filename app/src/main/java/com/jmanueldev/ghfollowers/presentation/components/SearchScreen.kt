@@ -8,25 +8,28 @@ import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.jmanueldev.ghfollowers.R
-import com.jmanueldev.ghfollowers.presentation.ui.user_search.UserSearchViewModel
+import com.jmanueldev.ghfollowers.domain.model.GithubUser
+import com.jmanueldev.ghfollowers.presentation.ui.user_search_fragment.UserSearchViewModel
 
 
 @Composable
 fun SearchScreen(
     searchViewModel: UserSearchViewModel = viewModel(),
     focusManager: FocusManager = LocalFocusManager.current,
+    onSearch: () -> Unit
 ) {
 
         Column(
@@ -61,17 +64,12 @@ fun SearchScreen(
                 },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Search
+                    imeAction = ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(
-                    onSearch = {
-                        //Have the ViewModel perform the search
-                        searchViewModel.getUser()
-
-                        //Once the search button is pressed
-                        //the focus manager will close the keyboard if open.
-                        focusManager.clearFocus()
-                    }
+                   onDone = {
+                       focusManager.clearFocus()
+                   }
                 )
             )
 
@@ -82,11 +80,13 @@ fun SearchScreen(
 
             Button(
                 onClick = {
-
-                }
+                    onSearch()
+                },
+                enabled = searchViewModel.username.value.isNotBlank(),
+                modifier = Modifier
+                    .fillMaxWidth(0.7f)
             ) {
                 Text("Get Followers")
             }
-
         }
 }

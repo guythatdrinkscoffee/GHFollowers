@@ -28,6 +28,7 @@ fun FollowerCard(
 ){
     Card(
         onClick = { onClick() },
+        elevation = 5.dp,
         modifier = Modifier.padding(10.dp)
     ) {
         Column(

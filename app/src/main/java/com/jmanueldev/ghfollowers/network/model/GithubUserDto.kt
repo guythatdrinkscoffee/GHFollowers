@@ -9,6 +9,9 @@ data class GithubUserDto(
     @SerializedName("avatar_url")
     val avatarUrl: String?,
 
+    @SerializedName("bio")
+    val bio: String?,
+
     @SerializedName("html_url")
     val htmlUrl: String?,
 
@@ -30,6 +33,9 @@ data class GithubUserDto(
     @SerializedName("followers")
     val followers: Int,
 
+    @SerializedName("following")
+    val following: Int,
+
     @SerializedName("created_at")
-    val createdAt: String,
+    val createdAt: String?,
 )
