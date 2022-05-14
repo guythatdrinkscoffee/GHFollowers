@@ -1,5 +1,7 @@
 package com.jmanueldev.ghfollowers.presentation.components
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,6 +21,12 @@ import com.jmanueldev.ghfollowers.R
 import com.jmanueldev.ghfollowers.domain.model.GithubUser
 import com.jmanueldev.ghfollowers.domain.utils.loadImage
 import com.jmanueldev.ghfollowers.presentation.ui.follower_fragment.FollowerViewModel
+import java.lang.String.format
+import java.text.DateFormat
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 @Composable
 fun FollowerDetailScreen(
@@ -49,134 +57,35 @@ fun FollowerDetailScreen(
                 InfoContent(icon = Icons.Filled.Face, title = "Followers", subtitle = follower.followers.toString())
                 InfoContent(icon = Icons.Filled.Person, title = "Following", subtitle = follower.following.toString())
             }
-        }
-    }
-}
 
-@Composable
-fun FollowerHeader(
-    follower: GithubUser
-){
-    Column{
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-        ){
-            val avatar = loadImage(url = follower.avatarUrl?: "", placeHolderImage = R.drawable.avatar_placeholder).value
-            avatar?.let {
-                Image(
-                    bitmap = it.asImageBitmap(),
-                    contentDescription = "Avatar",
-                    modifier = Modifier
-                        .size(100.dp, 100.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                )
-            }
-
-            Column(
-                modifier = Modifier
-                    .padding(10.dp)
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.Start
-            ){
-                Text(
-                    text = follower.username ?: "",
-                    style = MaterialTheme.typography.h6,
-                    modifier = Modifier
-                        .padding(2.dp)
-                )
-
-                Text(
-                    text = follower.name ?: "",
-                    modifier = Modifier
-                        .padding(5.dp)
-                )
-
-                Row(
-                    modifier = Modifier
-                        .padding(5.dp)
-                ){
-                    Icon(imageVector = Icons.Filled.Place, contentDescription = "Location Icon")
-                    Text(
-                        text = follower.location ?: "N/A"
-                    )
-                }
-            }
-        }
-
-        Text(
-            text = follower.bio ?: "No bio available.",
-            modifier = Modifier
-                .padding(start = 8.dp, end = 8.dp)
-                .fillMaxWidth(),
-            textAlign = TextAlign.Start
-        )
-    }
-}
-
-@Composable
-fun InfoCard(
-    buttonTitle: String,
-    onButtonClick: () -> Unit,
-    content: @Composable () -> Unit,
-){
-    Card(
-        elevation = 5.dp,
-        modifier = Modifier
-            .fillMaxWidth(0.95F  )
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(0.9F)
-                    .padding(8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ){
-                content()
-            }
-
-            Button(
-                onClick = { onButtonClick() },
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .padding(5.dp)
-            ) {
-                Text(
-                    text = buttonTitle
-                )
-            }
-        }
-
-    }
-}
-
-@Composable
-fun InfoContent(
-    icon: ImageVector,
-    title: String,
-    subtitle: String,
-){
-    Column (
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        Row{
-            Icon(
-                imageVector = icon,
-                contentDescription = "",
-                modifier = Modifier
-                    .padding(end = 2.dp)
+            Spacer(
+                modifier = Modifier.height(20.dp)
             )
+
             Text(
-                text = title
+                text = "GitHub Since ${toRelativeTime(follower.createdAt ?: " ")}"
             )
+
+            toRelativeTime(follower.createdAt ?: " ")
         }
-        Text(
-            text = subtitle
-        )
     }
 }
+
+@SuppressLint("SimpleDateFormat")
+fun toRelativeTime(dateString: String) : String? {
+    val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+    try {
+        val date = format.parse(dateString)
+        date?.let {
+            val shortDate = SimpleDateFormat.getDateInstance(DateFormat.MEDIUM).format(it)
+            return shortDate
+        }
+        return null
+    } catch (e: ParseException){
+        e.printStackTrace()
+    }
+    return "Unknown"
+}
+
+
+
