@@ -31,9 +31,10 @@ fun VerticalGrid(
     onFollowerClick: (GithubUser) -> Unit,
 ){
     LazyVerticalGrid(
-        cells = GridCells.Fixed(3),
+        cells = GridCells.Adaptive(minSize = 128.dp),
     )
     {
+
         items(data){ follower ->
             FollowerCard(
                 onClick = {

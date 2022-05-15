@@ -34,5 +34,9 @@
         <argument
             android:name="follower"
             app:argType="string" />
+        <action
+            android:id="@+id/action_followerFragment_to_userFollowersFragment2"
+            app:destination="@id/userFollowersFragment"
+            app:popUpTo="@id/followerFragment" />
     </fragment>
 </navigation>

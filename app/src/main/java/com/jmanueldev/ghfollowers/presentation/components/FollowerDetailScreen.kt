@@ -1,6 +1,7 @@
 package com.jmanueldev.ghfollowers.presentation.components
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -17,6 +18,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.jmanueldev.ghfollowers.R
 import com.jmanueldev.ghfollowers.domain.model.GithubUser
 import com.jmanueldev.ghfollowers.domain.utils.loadImage
@@ -30,7 +33,8 @@ import java.util.*
 
 @Composable
 fun FollowerDetailScreen(
-    followerViewModel: FollowerViewModel = viewModel()
+    followerViewModel: FollowerViewModel = viewModel(),
+    onNavigate: (GithubUser) -> Unit
 ){
     followerViewModel.user.value?.let { follower ->
         Column(
@@ -44,7 +48,10 @@ fun FollowerDetailScreen(
                 modifier = Modifier.height(20.dp)
             )
 
-            InfoCard(buttonTitle = "Github Profile", onButtonClick = {  }) {
+            InfoCard(buttonTitle = "Github Profile", onButtonClick = {
+                onNavigate(follower)
+            }
+            ) {
                 InfoContent(icon = Icons.Filled.Create , title = "Public Repos" , subtitle = follower.repos.toString())
                 InfoContent(icon = Icons.Filled.Menu, title = "Public Gists", subtitle = follower.gists.toString())
             }
@@ -53,7 +60,12 @@ fun FollowerDetailScreen(
                 modifier = Modifier.height(20.dp)
             )
 
-            InfoCard(buttonTitle = "Get Followers", onButtonClick = {}) {
+            InfoCard(
+                buttonTitle = "Get Followers",
+                onButtonClick = {
+                    onNavigate(follower)
+                }
+            ) {
                 InfoContent(icon = Icons.Filled.Face, title = "Followers", subtitle = follower.followers.toString())
                 InfoContent(icon = Icons.Filled.Person, title = "Following", subtitle = follower.following.toString())
             }

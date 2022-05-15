@@ -8,6 +8,8 @@ import androidx.compose.material.Text
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
+import com.jmanueldev.ghfollowers.R
 import com.jmanueldev.ghfollowers.presentation.components.FollowerDetailScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,7 +34,14 @@ class FollowerFragment : Fragment(){
     ): View? {
         return ComposeView(requireContext()).apply {
             setContent {
-                FollowerDetailScreen()
+                FollowerDetailScreen {
+                    val bundle = Bundle()
+                    bundle.putString("username", it.username)
+                    findNavController().navigate(
+                        R.id.action_followerFragment_to_userFollowersFragment2,
+                        bundle
+                    )
+                }
             }
         }
     }
